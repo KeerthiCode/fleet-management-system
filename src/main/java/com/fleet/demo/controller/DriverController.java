@@ -25,4 +25,25 @@ public class DriverController {
     public List<Driver> getDrivers() {
         return driverRepository.findAll();
     }
+
+    @PutMapping("/{id}")
+    public Driver updateDriver(@PathVariable Long id,
+                               @RequestBody Driver updatedDriver) {
+
+        Driver driver = driverRepository.findById(id).orElseThrow();
+
+        driver.setName(updatedDriver.getName());
+        driver.setLicenseNumber(updatedDriver.getLicenseNumber());
+        driver.setPhone(updatedDriver.getPhone());
+
+        return driverRepository.save(driver);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteDriver(@PathVariable Long id) {
+
+        driverRepository.deleteById(id);
+
+        return "Driver deleted successfully";
+    }
 }

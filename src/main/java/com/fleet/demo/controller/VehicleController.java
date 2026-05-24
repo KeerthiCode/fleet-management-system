@@ -25,4 +25,26 @@ public class VehicleController {
     public List<Vehicle> getVehicles() {
         return vehicleRepository.findAll();
     }
+
+    @PutMapping("/{id}")
+    public Vehicle updateVehicle(@PathVariable Long id,
+                                 @RequestBody Vehicle updatedVehicle) {
+
+        Vehicle vehicle = vehicleRepository.findById(id).orElseThrow();
+
+        vehicle.setVehicleNumber(updatedVehicle.getVehicleNumber());
+        vehicle.setModel(updatedVehicle.getModel());
+        vehicle.setType(updatedVehicle.getType());
+        vehicle.setStatus(updatedVehicle.getStatus());
+
+        return vehicleRepository.save(vehicle);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteVehicle(@PathVariable Long id) {
+
+        vehicleRepository.deleteById(id);
+
+        return "Vehicle deleted successfully";
+    }
 }
